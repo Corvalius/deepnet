@@ -31,7 +31,7 @@ class TestEigenMat(unittest.TestCase):
     mat.dot(eig_x, eig_y, target=eig_z)
 
     diff = ((eig_z.asarray() - z)**2).sum()
-    self.assertAlmostEqual(diff, 0, places=5)
+    self.assertAlmostEqual(diff, 0, places=4)
 
   def test_dot_transposed(self):
     x = np.random.randn(500, 1000)
@@ -44,7 +44,7 @@ class TestEigenMat(unittest.TestCase):
     mat.dot(eig_x, eig_y.T, target=eig_z)
 
     diff = ((eig_z.asarray() - z)**2).sum()
-    self.assertAlmostEqual(diff, 0, places=5)
+    self.assertAlmostEqual(diff, 0, places=4)
 
   def test_sum_by_axis(self):
     x = 1.1 + np.random.randn(10, 1000)

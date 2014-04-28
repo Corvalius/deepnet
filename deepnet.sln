@@ -3,12 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "deepnet-git", "deepnet-git.pyproj", "{2B69E064-F3E1-40FC-BB61-6CEDB5A021A7}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "deepnet-vs", "deepnet-vs.pyproj", "{2B69E064-F3E1-40FC-BB61-6CEDB5A021A7}"
 EndProject
 Global
-	GlobalSection(CodealikeProperties) = postSolution
-		SolutionGuid = 401f1f63-bfdd-4312-aa49-797f768610ef
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,5 +16,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = 401f1f63-bfdd-4312-aa49-797f768610ef
 	EndGlobalSection
 EndGlobal
