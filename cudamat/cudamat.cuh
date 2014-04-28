@@ -18,6 +18,12 @@
 #define MAX(x,y) ((x > y) ? x : y)
 #endif
 
+#ifdef _WIN32
+#define DLLEXPORT __declspec(dllexport) 
+#else
+#define DLLEXPORT
+#endif
+
 struct cudamat {
     float* data_host;
     float* data_device;

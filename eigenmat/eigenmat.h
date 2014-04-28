@@ -8,6 +8,12 @@
 #define ERROR_NOT_ON_DEVICE -8
 #define ERROR_UNSUPPORTED -9
 
+#ifdef _WIN32
+#define DLLEXPORT __declspec(dllexport) 
+#else
+#define DLLEXPORT
+#endif
+
 struct eigenmat {
   float* data;
   int size[2];

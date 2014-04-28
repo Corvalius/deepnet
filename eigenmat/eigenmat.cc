@@ -6,22 +6,24 @@
 
 extern "C" {
 
-extern int init_random(rnd_struct* rnd_state, int seed) {
+DLLEXPORT extern int init_random(rnd_struct* rnd_state, int seed) {
   rnd_state->seed = seed;
   r4_nor_setup(rnd_state->kn, rnd_state->fn, rnd_state->wn);
+
+  return 0;
 }
 
 /* ------------------------------ Utility routines ------------------------------ */
 
-extern int get_leading_dimension(eigenmat* mat) {
+DLLEXPORT extern int get_leading_dimension(eigenmat* mat) {
   return mat->is_trans ? mat->size[1] : mat->size[0];
 }
 
-extern int get_nonleading_dimension(eigenmat* mat) {
+DLLEXPORT extern int get_nonleading_dimension(eigenmat* mat) {
   return mat->is_trans ? mat->size[0] : mat->size[1];
 }
 
-extern void set_transpose(eigenmat* mat, int is_trans) {
+DLLEXPORT extern void set_transpose(eigenmat* mat, int is_trans) {
   mat->is_trans = is_trans;
 }
 
@@ -31,13 +33,13 @@ inline char get_transpose_char(eigenmat* mat) {
 
 /* ------------------------------ Allocating/moving data ------------------------------ */
 
-extern int allocate_memory(eigenmat* mat) {
+DLLEXPORT extern int allocate_memory(eigenmat* mat) {
   const int len = mat->size[0] * mat->size[1];
   mat->data = (float*)malloc(len * sizeof(float));
   return 0;
 }
 
-extern int copy_on_device(eigenmat* mat1, eigenmat* mat2) {
+DLLEXPORT extern int copy_on_device(eigenmat* mat1, eigenmat* mat2) {
   const int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->size[0] != mat2->size[0] || mat1->size[1] != mat2->size[1])
@@ -49,7 +51,7 @@ extern int copy_on_device(eigenmat* mat1, eigenmat* mat2) {
   return 0;
 }
 
-extern int get_row_slice(eigenmat* source, eigenmat* target, unsigned int start, unsigned int end) {
+DLLEXPORT extern int get_row_slice(eigenmat* source, eigenmat* target, unsigned int start, unsigned int end) {
   int height = source->size[0];
   int width = source->size[1];
 
@@ -60,7 +62,7 @@ extern int get_row_slice(eigenmat* source, eigenmat* target, unsigned int start,
   return 0;
 }
 
-extern int set_row_slice(eigenmat* source, eigenmat* target, unsigned int start, unsigned int end) {
+DLLEXPORT extern int set_row_slice(eigenmat* source, eigenmat* target, unsigned int start, unsigned int end) {
   int height = target->size[0];
   int width = target->size[1];
 
@@ -70,7 +72,7 @@ extern int set_row_slice(eigenmat* source, eigenmat* target, unsigned int start,
   return 0;
 }
 
-extern int copy_transpose(eigenmat* source, eigenmat* target) {
+DLLEXPORT extern int copy_transpose(eigenmat* source, eigenmat* target) {
   unsigned int height = source->size[0];
   unsigned int width = source->size[1];
 
@@ -82,13 +84,13 @@ extern int copy_transpose(eigenmat* source, eigenmat* target) {
   return 0;
 }
 
-extern int set_shape(eigenmat* mat, unsigned int m, unsigned int n) {
+DLLEXPORT extern int set_shape(eigenmat* mat, unsigned int m, unsigned int n) {
   mat->size[0] = m;
   mat->size[1] = n;
   return 0;
 }
 
-extern int reshape(eigenmat* mat, unsigned int m, unsigned int n) {
+DLLEXPORT extern int reshape(eigenmat* mat, unsigned int m, unsigned int n) {
   if (mat->size[0] * mat->size[1] != m * n)
     return ERROR_INCOMPATIBLE_DIMENSIONS;
   mat->size[0] = m;
@@ -96,7 +98,7 @@ extern int reshape(eigenmat* mat, unsigned int m, unsigned int n) {
   return 0;
 }
 
-extern int get_slice(eigenmat* source, eigenmat* target, unsigned int first_col, unsigned int last_col) {
+DLLEXPORT extern int get_slice(eigenmat* source, eigenmat* target, unsigned int first_col, unsigned int last_col) {
   if (source->is_trans)
     return ERROR_TRANSPOSED;
 
@@ -114,7 +116,7 @@ extern int get_slice(eigenmat* source, eigenmat* target, unsigned int first_col,
   return 0;
 }
 
-extern int get_vector_slice(eigenmat* source, eigenmat* target, unsigned int first_ind, unsigned int last_ind) {
+DLLEXPORT extern int get_vector_slice(eigenmat* source, eigenmat* target, unsigned int first_ind, unsigned int last_ind) {
   // source must be a vector
   if (source->size[0] > 1 && source->size[1] > 1)
     return ERROR_GENERIC;
@@ -153,7 +155,7 @@ extern int get_vector_slice(eigenmat* source, eigenmat* target, unsigned int fir
 
 /* ------------------------------ Initialization routines ------------------------------ */
 
-extern void init_from_array(eigenmat* mat, float* data, int m, int n) {
+DLLEXPORT extern void init_from_array(eigenmat* mat, float* data, int m, int n) {
   mat->data = data;
   mat->size[0] = m;
   mat->size[1] = n;
@@ -161,7 +163,7 @@ extern void init_from_array(eigenmat* mat, float* data, int m, int n) {
   mat->owns_data = 1;
 }
 
-extern int init_empty(eigenmat* mat, int m, int n) {
+DLLEXPORT extern int init_empty(eigenmat* mat, int m, int n) {
   mat->size[0] = m;
   mat->size[1] = n;
   mat->is_trans = 0;
@@ -172,27 +174,27 @@ extern int init_empty(eigenmat* mat, int m, int n) {
 
 /* ------------------------------ Random number generation ------------------------------ */
 
-extern float uniform(rnd_struct* rnd_state) {
+DLLEXPORT extern float uniform(rnd_struct* rnd_state) {
   return r4_uni(&rnd_state->seed);
 }
 
-extern float normal(rnd_struct* rnd_state) {
+DLLEXPORT extern float normal(rnd_struct* rnd_state) {
   return r4_nor(&rnd_state->seed, rnd_state->kn, rnd_state->fn, rnd_state->wn);
 }
 
-extern int fill_with_rand(rnd_struct* rnd_state, eigenmat* mat) {
+DLLEXPORT extern int fill_with_rand(rnd_struct* rnd_state, eigenmat* mat) {
   const int len = mat->size[0] * mat->size[1];
   for (int i = 0; i < len; i++) mat->data[i] = uniform(rnd_state); 
   return 0;
 }
 
-extern int fill_with_randn(rnd_struct* rnd_state, eigenmat* mat) {
+DLLEXPORT extern int fill_with_randn(rnd_struct* rnd_state, eigenmat* mat) {
   const int len = mat->size[0] * mat->size[1];
   for (int i = 0; i < len; i++) mat->data[i] = normal(rnd_state);
   return 0;
 }
 
-extern int sample_bernoulli(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int sample_bernoulli(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
   int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -202,7 +204,7 @@ extern int sample_bernoulli(rnd_struct* rnd_state, eigenmat* mat, eigenmat* targ
 
   return 0;
 }
-extern int sample_bernoulli_tanh(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int sample_bernoulli_tanh(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
   int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -213,7 +215,7 @@ extern int sample_bernoulli_tanh(rnd_struct* rnd_state, eigenmat* mat, eigenmat*
   return 0;
 }
 
-extern int sample_gaussian(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target, float mult) {
+DLLEXPORT extern int sample_gaussian(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target, float mult) {
   int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -224,7 +226,7 @@ extern int sample_gaussian(rnd_struct* rnd_state, eigenmat* mat, eigenmat* targe
   return 0;
 }
 
-extern int perturb_energy(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int perturb_energy(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
   const int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -235,7 +237,7 @@ extern int perturb_energy(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target
   return 0;
 }
 
-extern int perturb_prob(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int perturb_prob(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) {
   const int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -246,7 +248,7 @@ extern int perturb_prob(rnd_struct* rnd_state, eigenmat* mat, eigenmat* target) 
   return 0;
 }
 
-extern int dropout(rnd_struct* rnd_state, eigenmat* mat, float dropprob, float val) {
+DLLEXPORT extern int dropout(rnd_struct* rnd_state, eigenmat* mat, float dropprob, float val) {
   const int len = mat->size[0] * mat->size[1];
 
   for (int i = 0; i < len; i++)
@@ -257,7 +259,7 @@ extern int dropout(rnd_struct* rnd_state, eigenmat* mat, float dropprob, float v
 
 /* ------------------------------ Algebraic operations ------------------------------ */
 
-extern int add_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int add_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -277,14 +279,14 @@ extern int add_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int add_mult_sign(eigenmat* mat, eigenmat* mat2, float mult) {
+DLLEXPORT extern int add_mult_sign(eigenmat* mat, eigenmat* mat2, float mult) {
   for (int i = 0; i < mat->size[0] * mat->size[1]; i++) {
     mat->data[i] += (mat2->data[i] == 0) ? 0 : ((mat2->data[i] > 0) ? mult:-mult);
   }
   return 0;
 }
 
-extern int add_col_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mult) {
+DLLEXPORT extern int add_col_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mult) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -304,7 +306,7 @@ extern int add_col_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mu
   return 0;
 }
 
-extern int mult_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int mult_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
   unsigned int w = mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -316,7 +318,7 @@ extern int mult_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
 }
 
 
-extern int add_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int add_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
   unsigned int w = mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -327,7 +329,7 @@ extern int add_diagonal_scalar(eigenmat* mat, float val, eigenmat* target) {
   return 0;
 }
 
-extern int mult_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int mult_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int w = mat->size[1];
 
   if (mat->size[0] != vec->size[1] * vec->size[0] ||
@@ -339,7 +341,7 @@ extern int mult_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int add_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int add_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int w = mat->size[1];
 
   if (mat->size[0] != vec->size[1] * vec->size[0] ||
@@ -350,7 +352,7 @@ extern int add_diagonal(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int add_row_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mult) {
+DLLEXPORT extern int add_row_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mult) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -369,7 +371,7 @@ extern int add_row_mult(eigenmat* mat, eigenmat* vec, eigenmat* target, float mu
   return 0;
 }
 
-extern int add_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int add_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -388,7 +390,7 @@ extern int add_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int mult_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int mult_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -408,7 +410,7 @@ extern int mult_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int mult_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int mult_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -427,7 +429,7 @@ extern int mult_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int div_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int div_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -446,7 +448,7 @@ extern int div_by_col_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   return 0;
 }
 
-extern int div_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
+DLLEXPORT extern int div_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
 
@@ -464,7 +466,7 @@ extern int div_by_row_vec(eigenmat* mat, eigenmat* vec, eigenmat* target) {
 
   return 0;
 }
-extern int less_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int less_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   const int len = mat1->size[0] * mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -480,7 +482,7 @@ extern int less_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int less_than_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int less_than_scalar(eigenmat* mat, float val, eigenmat* target) {
   const int len = mat->size[0]*mat->size[1];
 
   if (mat->is_trans != target->is_trans)
@@ -496,7 +498,7 @@ extern int less_than_scalar(eigenmat* mat, float val, eigenmat* target) {
   return 0;
 }
 
-extern int greater_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int greater_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -513,7 +515,7 @@ extern int greater_than(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int upper_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int upper_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -530,7 +532,7 @@ extern int upper_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int lower_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int lower_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -543,9 +545,11 @@ extern int lower_bound(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   #pragma omp parallel for
   for (int i = 0; i < len; i++)
     target->data[i] = mat1->data[i] > mat2->data[i] ? mat1->data[i] : mat2->data[i];
+
+  return 0;
 }
 
-extern int greater_than_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int greater_than_scalar(eigenmat* mat, float val, eigenmat* target) {
   int len = mat->size[0]*mat->size[1];
 
   if (mat->is_trans != target->is_trans)
@@ -559,7 +563,7 @@ extern int greater_than_scalar(eigenmat* mat, float val, eigenmat* target) {
   return 0;
 }
 
-extern int upper_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int upper_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
   int len = mat->size[0]*mat->size[1];
 
   if (mat->is_trans != target->is_trans)
@@ -575,7 +579,7 @@ extern int upper_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
 }
 
 
-extern int lower_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
+DLLEXPORT extern int lower_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
   const int len = mat->size[0]*mat->size[1];
 
   if (mat->is_trans != target->is_trans)
@@ -590,7 +594,7 @@ extern int lower_bound_scalar(eigenmat* mat, float val, eigenmat* target) {
   return 0;
 }
 
-extern int cumsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int cumsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   const unsigned int h = mat->size[0], w = mat->size[1];
   if (axis == 0) {
     for (int i = 0; i < w; i++) {
@@ -614,7 +618,7 @@ extern int cumsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   return 0;
 }
 
-extern int max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   const unsigned int h = mat->size[0], w = mat->size[1];
   if (axis == 0) {
     for (int i = 0; i < w; i++) {
@@ -638,7 +642,7 @@ extern int max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   return 0;
 }
 
-extern int choose_max_and_accumulate(eigenmat* mat, eigenmat* acc) {
+DLLEXPORT extern int choose_max_and_accumulate(eigenmat* mat, eigenmat* acc) {
   const unsigned int h = mat->size[0], w = mat->size[1];
 
   if (mat->is_trans)
@@ -658,7 +662,7 @@ extern int choose_max_and_accumulate(eigenmat* mat, eigenmat* acc) {
   return 0;
 }
 
-extern int choose_max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int choose_max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   const unsigned int h = mat->size[0], w = mat->size[1];
   if (axis == 0) {
     for (int i = 0; i < w; i++) {
@@ -683,7 +687,7 @@ extern int choose_max_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   }
   return 0;
 }
-extern int argmax_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int argmax_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   const unsigned int h = mat->size[0], w = mat->size[1];
   if (axis == 0) {
     for (int i = 0; i < w; i++) {
@@ -707,7 +711,7 @@ extern int argmax_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   return 0;
 }
 
-extern int sqsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int sqsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   const unsigned int h = mat->size[0], w = mat->size[1];
 
   if (axis == 0) {
@@ -730,7 +734,7 @@ extern int sqsum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   return 0;
 }
 
-extern int add_sum_by_axis(eigenmat* mat, eigenmat* target, int axis, const float mult) {
+DLLEXPORT extern int add_sum_by_axis(eigenmat* mat, eigenmat* target, int axis, const float mult) {
   int len_mat = mat->size[0] * mat->size[1];
   int len_target = target->size[0] * target->size[1];
   Eigen::Map<Eigen::ArrayXXf> eig_mat(mat->data, mat->size[0], mat->size[1]);
@@ -744,7 +748,7 @@ extern int add_sum_by_axis(eigenmat* mat, eigenmat* target, int axis, const floa
   return 0;
 }
 
-extern int sum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
+DLLEXPORT extern int sum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   int len_mat = mat->size[0] * mat->size[1];
   int len_target = target->size[0] * target->size[1];
   Eigen::Map<Eigen::ArrayXXf> eig_mat(mat->data, mat->size[0], mat->size[1]);
@@ -758,7 +762,7 @@ extern int sum_by_axis(eigenmat* mat, eigenmat* target, int axis) {
   return 0;
 }
 
-extern int normlimit_by_axis(eigenmat* mat, eigenmat* target, int axis,
+DLLEXPORT extern int normlimit_by_axis(eigenmat* mat, eigenmat* target, int axis,
     float norm) {
   unsigned int h = mat->size[0],
          w = mat->size[1];
@@ -767,7 +771,7 @@ extern int normlimit_by_axis(eigenmat* mat, eigenmat* target, int axis,
 }
 
 
-extern int sign(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int sign(eigenmat* mat, eigenmat* target) {
   int len = mat->size[0]*mat->size[1];
 
   if (mat->is_trans != target->is_trans)
@@ -781,7 +785,7 @@ extern int sign(eigenmat* mat, eigenmat* target) {
 
   return 0;
 }
-extern int apply_cos(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_cos(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -792,7 +796,7 @@ extern int apply_cos(eigenmat* mat, eigenmat* target) {
   eig_target = eig_mat.cos();
   return 0;
 }
-extern int apply_sin(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_sin(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -805,7 +809,7 @@ extern int apply_sin(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_softmax(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_softmax(eigenmat* mat, eigenmat* target) {
   int width = mat->size[1], height = mat->size[0];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -825,7 +829,7 @@ extern int apply_softmax(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_softmax_grad(eigenmat* mat, eigenmat* labels, eigenmat* target) {
+DLLEXPORT extern int apply_softmax_grad(eigenmat* mat, eigenmat* labels, eigenmat* target) {
   const int width = mat->size[1], height = mat->size[0];
 
   if (target != mat) {
@@ -838,7 +842,7 @@ extern int apply_softmax_grad(eigenmat* mat, eigenmat* labels, eigenmat* target)
   return 0;
  
 }
-extern int get_softmax_cross_entropy(eigenmat* mat, eigenmat* labels, eigenmat* target, const float tiny) {
+DLLEXPORT extern int get_softmax_cross_entropy(eigenmat* mat, eigenmat* labels, eigenmat* target, const float tiny) {
   const int width = mat->size[1], height = mat->size[0];
 
   for (int i = 0; i < width; i++) {
@@ -847,7 +851,7 @@ extern int get_softmax_cross_entropy(eigenmat* mat, eigenmat* labels, eigenmat* 
   return 0;
 }
 
-extern int get_softmax_correct(eigenmat* mat, eigenmat* labels, eigenmat* target) {
+DLLEXPORT extern int get_softmax_correct(eigenmat* mat, eigenmat* labels, eigenmat* target) {
   int width = mat->size[1], height = mat->size[0];
 
   #pragma omp parallel for
@@ -861,12 +865,12 @@ extern int get_softmax_correct(eigenmat* mat, eigenmat* labels, eigenmat* target
   return 0;
 }
 
-extern float sum_all(eigenmat* mat) {
+DLLEXPORT extern float sum_all(eigenmat* mat) {
   Eigen::Map<Eigen::ArrayXf> eig_mat(mat->data, mat->size[0] * mat->size[1]);
   return eig_mat.sum();
 }
 
-extern int apply_sigmoid(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_sigmoid(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -877,7 +881,7 @@ extern int apply_sigmoid(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_tanh(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_tanh(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -887,7 +891,7 @@ extern int apply_tanh(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_abs(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_abs(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -899,7 +903,7 @@ extern int apply_abs(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_log_1_plus_exp(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_log_1_plus_exp(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
 
@@ -911,7 +915,7 @@ extern int apply_log_1_plus_exp(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_log(eigenmat* mat, eigenmat* target, float tiny) {
+DLLEXPORT extern int apply_log(eigenmat* mat, eigenmat* target, float tiny) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -924,7 +928,7 @@ extern int apply_log(eigenmat* mat, eigenmat* target, float tiny) {
   return 0;
 }
 
-extern int apply_exp(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_exp(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -936,7 +940,7 @@ extern int apply_exp(eigenmat* mat, eigenmat* target) {
 
   return 0;
 }
-extern int apply_ceil(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_ceil(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -947,7 +951,7 @@ extern int apply_ceil(eigenmat* mat, eigenmat* target) {
 
   return 0;
 }
-extern int apply_floor(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_floor(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -959,7 +963,7 @@ extern int apply_floor(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_sqrt(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int apply_sqrt(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -972,7 +976,7 @@ extern int apply_sqrt(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int apply_pow(eigenmat* mat, float exponent, eigenmat* target) {
+DLLEXPORT extern int apply_pow(eigenmat* mat, float exponent, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -985,7 +989,7 @@ extern int apply_pow(eigenmat* mat, float exponent, eigenmat* target) {
   return 0;
 }
 
-extern int apply_pow_matrix(eigenmat* mat, eigenmat* exponent, eigenmat* target) {
+DLLEXPORT extern int apply_pow_matrix(eigenmat* mat, eigenmat* exponent, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -999,7 +1003,7 @@ extern int apply_pow_matrix(eigenmat* mat, eigenmat* exponent, eigenmat* target)
   return 0;
 }
 
-extern int compute_cross_entropy(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float tiny) {
+DLLEXPORT extern int compute_cross_entropy(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float tiny) {
   unsigned int len = mat1->size[0] * mat1->size[1];
 
   if (mat1->size[0] != target->size[0] || mat1->size[1] != target->size[1])
@@ -1013,7 +1017,7 @@ extern int compute_cross_entropy(eigenmat* mat1, eigenmat* mat2, eigenmat* targe
 
   return 0;
 }
-extern int compute_cross_entropy_bernoulli(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float tiny) {
+DLLEXPORT extern int compute_cross_entropy_bernoulli(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float tiny) {
   unsigned int len = mat1->size[0] * mat1->size[1];
 
   if (mat1->size[0] != target->size[0] || mat1->size[1] != target->size[1])
@@ -1027,7 +1031,7 @@ extern int compute_cross_entropy_bernoulli(eigenmat* mat1, eigenmat* mat2, eigen
     target->data[i] = - mat1->data[i] * log(mat2->data[i] + tiny) - (1-mat1->data[i]) * log(1 - mat2->data[i] + tiny);
   return 0;
 }
-extern int correct_preds(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float cutoff) {
+DLLEXPORT extern int correct_preds(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float cutoff) {
   unsigned int len = mat1->size[0] * mat1->size[1];
 
   if (mat1->size[0] != target->size[0] || mat1->size[1] != target->size[1])
@@ -1042,7 +1046,7 @@ extern int correct_preds(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float
   return 0;
 }
 
-extern int reciprocal(eigenmat* mat, eigenmat* target) {
+DLLEXPORT extern int reciprocal(eigenmat* mat, eigenmat* target) {
   unsigned int len = mat->size[0] * mat->size[1];
 
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
@@ -1056,7 +1060,7 @@ extern int reciprocal(eigenmat* mat, eigenmat* target) {
   return 0;
 }
 
-extern int dot(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float beta, float alpha) {
+DLLEXPORT extern int dot(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float beta, float alpha) {
 
   if (get_leading_dimension(mat1) != get_leading_dimension(target) ||
     get_nonleading_dimension(mat2) != get_nonleading_dimension(target) ||
@@ -1085,7 +1089,7 @@ extern int dot(eigenmat* mat1, eigenmat* mat2, eigenmat* target, float beta, flo
   return 0;
 }
 
-extern float vdot(eigenmat* mat1, eigenmat* mat2, int* err_code) {
+DLLEXPORT extern float vdot(eigenmat* mat1, eigenmat* mat2, int* err_code) {
   int len = mat1->size[0]*mat1->size[1];
   float res;
 
@@ -1106,7 +1110,7 @@ extern float vdot(eigenmat* mat1, eigenmat* mat2, int* err_code) {
 
 /* Perform the operation mat1 = mat1 + alpha * mat2. mat1 and mat2 must
   have the same transposedness. */
-extern int add_mult(eigenmat* mat1, eigenmat* mat2, float alpha) {
+DLLEXPORT extern int add_mult(eigenmat* mat1, eigenmat* mat2, float alpha) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1121,7 +1125,7 @@ extern int add_mult(eigenmat* mat1, eigenmat* mat2, float alpha) {
   return 0;
 }
 
-extern int add_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int add_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1138,7 +1142,7 @@ extern int add_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int subtract_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int subtract_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1155,7 +1159,7 @@ extern int subtract_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target
   return 0;
 }
 
-extern int divide_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int divide_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1173,7 +1177,7 @@ extern int divide_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) 
 }
 
 /* Elementwise multiplication of 2 matrices */
-extern int mult_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int mult_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1190,7 +1194,7 @@ extern int mult_elementwise(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int apply_sin_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_sin_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1202,7 +1206,7 @@ extern int apply_sin_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
 
   return 0;
 }
-extern int apply_cos_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_cos_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1214,7 +1218,7 @@ extern int apply_cos_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
 
   return 0;
 }
-extern int apply_logistic_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_logistic_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1230,7 +1234,7 @@ extern int apply_logistic_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target
   return 0;
 }
 
-extern int apply_tanh_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_tanh_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1245,7 +1249,7 @@ extern int apply_tanh_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   return 0;
 }
 
-extern int apply_rectified_linear_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_rectified_linear_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1260,7 +1264,7 @@ extern int apply_rectified_linear_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat
   return 0;
 }
 
-extern int apply_rectified_linear_smooth_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
+DLLEXPORT extern int apply_rectified_linear_smooth_deriv(eigenmat* mat1, eigenmat* mat2, eigenmat* target) {
   int len = mat1->size[0]*mat1->size[1];
 
   if (mat1->is_trans != mat2->is_trans)
@@ -1275,14 +1279,14 @@ extern int apply_rectified_linear_smooth_deriv(eigenmat* mat1, eigenmat* mat2, e
   return 0;
 }
 
-extern int assign_scalar(eigenmat* mat, float alpha) {
+DLLEXPORT extern int assign_scalar(eigenmat* mat, float alpha) {
   int len = mat->size[0]*mat->size[1];
   Eigen::Map<Eigen::ArrayXf> eig_mat(mat->data, len);
   eig_mat.setConstant(alpha);
   return 0;
 }
 
-extern int mult_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
+DLLEXPORT extern int mult_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   const int len = mat->size[0]*mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -1292,7 +1296,7 @@ extern int mult_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   return 0;
 }
 
-extern int divide_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
+DLLEXPORT extern int divide_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   const int len = mat->size[0]*mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -1302,7 +1306,7 @@ extern int divide_by_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   return 0;
 }
 
-extern int add_scalar(eigenmat* mat, float alpha, eigenmat* target) {
+DLLEXPORT extern int add_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   const int len = mat->size[0] * mat->size[1];
   if (mat->size[0] != target->size[0] || mat->size[1] != target->size[1])
     return ERROR_INCOMPATIBLE_DIMENSIONS;
@@ -1312,13 +1316,13 @@ extern int add_scalar(eigenmat* mat, float alpha, eigenmat* target) {
   return 0;
 }
 
-extern float euclid_norm(eigenmat* mat) {
+DLLEXPORT extern float euclid_norm(eigenmat* mat) {
   const int len = mat->size[0]*mat->size[1];
   Eigen::Map<Eigen::VectorXf> eig_mat(mat->data, len);
   return eig_mat.norm();
 }
 
-extern int selectCols(eigenmat* source, eigenmat* target, eigenmat* indices){
+DLLEXPORT extern int selectCols(eigenmat* source, eigenmat* target, eigenmat* indices){
   const int n = indices->size[1] * indices->size[0];
   const int h = source->size[0];
 
@@ -1334,7 +1338,7 @@ extern int selectCols(eigenmat* source, eigenmat* target, eigenmat* indices){
   return 0;
 }
 
-extern int selectRows(eigenmat* source, eigenmat* target, eigenmat* indices){
+DLLEXPORT extern int selectRows(eigenmat* source, eigenmat* target, eigenmat* indices){
   const int n = indices->size[1] * indices->size[0];
   const int w = source->size[1], h_source = source->size[0], h_target = target->size[0];
 
@@ -1348,7 +1352,7 @@ extern int selectRows(eigenmat* source, eigenmat* target, eigenmat* indices){
   return 0;
 }
 
-extern int swapCols(eigenmat* source, eigenmat* target, eigenmat* indices1, eigenmat* indices2){
+DLLEXPORT extern int swapCols(eigenmat* source, eigenmat* target, eigenmat* indices1, eigenmat* indices2){
   const int n = indices1->size[1] * indices1->size[0];
   const int h = source->size[0];
 
@@ -1366,7 +1370,7 @@ extern int swapCols(eigenmat* source, eigenmat* target, eigenmat* indices1, eige
   return 0;
 }
 
-extern int swapRows(eigenmat* source, eigenmat* target, eigenmat* indices1, eigenmat* indices2){
+DLLEXPORT extern int swapRows(eigenmat* source, eigenmat* target, eigenmat* indices1, eigenmat* indices2){
   const int n = indices1->size[1] * indices1->size[0];
   const int w = source->size[1], h_source = source->size[0], h_target = target->size[0];
 
@@ -1384,7 +1388,7 @@ extern int swapRows(eigenmat* source, eigenmat* target, eigenmat* indices1, eige
   return 0;
 }
 
-extern int setSelectedCols(eigenmat* source, eigenmat* target, eigenmat* indices){
+DLLEXPORT extern int setSelectedCols(eigenmat* source, eigenmat* target, eigenmat* indices){
   const int n = indices->size[1] * indices->size[0];
   const int h = source->size[0];
 
@@ -1400,7 +1404,7 @@ extern int setSelectedCols(eigenmat* source, eigenmat* target, eigenmat* indices
   return 0;
 }
 
-extern int setSelectedRows(eigenmat* source, eigenmat* target, eigenmat* indices){
+DLLEXPORT extern int setSelectedRows(eigenmat* source, eigenmat* target, eigenmat* indices){
   const int n = indices->size[1] * indices->size[0];
   const int w = source->size[1], h_source = source->size[0], h_target = target->size[0];
 
@@ -1414,11 +1418,11 @@ extern int setSelectedRows(eigenmat* source, eigenmat* target, eigenmat* indices
   return 0;
 }
 
-extern int generate_translations_big_var_off(eigenmat* source, eigenmat* target, eigenmat* off_x, eigenmat* off_y, int source_w, int target_w, int num_channels) {
+DLLEXPORT extern int generate_translations_big_var_off(eigenmat* source, eigenmat* target, eigenmat* off_x, eigenmat* off_y, int source_w, int target_w, int num_channels) {
   return 0;
 }
 
-extern int blockify(eigenmat* source, eigenmat* target, int blocksize) {
+DLLEXPORT extern int blockify(eigenmat* source, eigenmat* target, int blocksize) {
   const int w = source->size[1], h = source->size[0];
   #pragma omp parallel for
   for (int i = 0; i < w; i++) {

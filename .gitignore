@@ -34,3 +34,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+eigenmat/eigen3/
+eigenmat/temp-build/
+*.exp

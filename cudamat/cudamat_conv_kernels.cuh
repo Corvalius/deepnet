@@ -436,7 +436,7 @@ __global__ void img_acts_color(const float* hidActs, const float* filters, float
   const int pxX = blockRegionLeft + pxXInRegion;
   const int pxIdx = pxY * imgSize + pxX;
   const bool isPxInImg = pxY < imgSize && pxX < imgSize;
-  const uint numModules = numModulesX * numModulesX;
+  const unsigned int numModules = numModulesX * numModulesX;
   const int filterPixels = filterSize * filterSize;
   const int imgPixels = imgSize * imgSize;
   const int tidx = threadIdx.y * 16 + threadIdx.x;
@@ -610,7 +610,7 @@ __global__ void img_acts_mediumcolor(const float* hidActs, const float* filters,
   const int pxX = blockRegionLeft + pxXInRegion;
   const int pxIdx = pxY * imgSize + pxX;
   const bool isPxInImg = pxY < imgSize && pxX < imgSize;
-//  const uint numModules = numModulesX * numModulesX;
+//  const unsigned int numModules = numModulesX * numModulesX;
   const int filterPixels = filterSize * filterSize;
   const int imgPixels = imgSize * imgSize;
   const int tidx = threadIdx.y * 16 + threadIdx.x;
@@ -2009,12 +2009,12 @@ __global__ void kRNormUndo(float* outGrads, float* denoms, float* inputs, float*
  */
 template<int B_X, int eltsPerThread>
 __global__ void kRNormUndoPrelims(float* acts, float* denoms, float* outGrads,
-                 const uint numElements, const float scale) {
-  const uint e = B_X * blockIdx.x * eltsPerThread + threadIdx.x;
-  const uint numThreads = B_X * gridDim.x;
-  for (uint i = e; i < numElements; i += numThreads*eltsPerThread) {
+	const unsigned int numElements, const float scale) {
+	const unsigned int e = B_X * blockIdx.x * eltsPerThread + threadIdx.x;
+	const unsigned int numThreads = B_X * gridDim.x;
+	for (unsigned int i = e; i < numElements; i += numThreads*eltsPerThread) {
     #pragma unroll
-    for (uint k = 0; k < eltsPerThread; k++) {
+		for (unsigned int k = 0; k < eltsPerThread; k++) {
       if (i + k * B_X < numElements) {
         acts[i + k * B_X] = __fdividef(scale*outGrads[i + k * B_X] * acts[i + k * B_X], denoms[i + k * B_X]);
       }
