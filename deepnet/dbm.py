@@ -28,7 +28,7 @@ class DBM(NeuralNet):
   def DumpModelState(self, step):
     state_dict = dict([(node.name, node.state.asarray().T) for node in self.node_list])
     filename = '/ais/gobi3/u/nitish/flickr/states/%s_%d' % (self.net.name, step)
-    print 'Dumping state at step %d to %s' % (step, filename)
+    print( 'Dumping state at step %d to %s' % (step, filename) )
     np.savez(filename, **state_dict)
 
   def Sort(self):
@@ -510,6 +510,6 @@ class DBM(NeuralNet):
     """
     for l in self.net.layer:
       if l.name == layername:
-        print 'Unclamping %s' % layername
+        print( 'Unclamping %s' % layername )
         l.is_input = False
         self.unclamped_layer.append(l.name)

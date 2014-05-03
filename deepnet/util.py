@@ -29,7 +29,7 @@ def WriteCheckpointFile(net, t_op, best=False):
     tag = 'BEST'
     checkpoint_file = '%s_%s' % (net.name, tag)
     checkpoint_file = os.path.join(ckpt_dir, checkpoint_file)
-    print 'Writing current best model %s' % checkpoint_file
+    print( 'Writing current best model %s' % checkpoint_file )
     f = gzip.open(checkpoint_file, 'wb')
     f.write(net.SerializeToString())
     f.close()
@@ -37,7 +37,7 @@ def WriteCheckpointFile(net, t_op, best=False):
     tag = 'LAST'
     checkpoint_file = '%s_%s' % (net.name, time.strftime('%s'))
     checkpoint_file = os.path.join(ckpt_dir, checkpoint_file)
-    print 'Writing checkpoint %s' % checkpoint_file
+    print( 'Writing checkpoint %s' % checkpoint_file )
     f = gzip.open(checkpoint_file, 'wb')
     f.write(net.SerializeToString())
     f.close()
@@ -176,7 +176,7 @@ def load(fname, target_dict, verbose = False):
     fo = gzip.GzipFile(fname, 'rb')
     var_list = pickle.load(fo)
     if verbose:
-        print var_list
+        print(var_list)
     for var in var_list:
         target_dict[var] = pickle.load(fo)
     fo.close()

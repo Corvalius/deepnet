@@ -28,11 +28,11 @@ class DBN(DBM):
     self.downward_net.Show()
 
   def PrintNetwork(self):
-    print 'RBM:'
+    print( 'RBM:' )
     self.rbm.PrintNetwork()
-    print 'Up:'
+    print( 'Up:' )
     self.upward_net.PrintNetwork()
-    print 'Down:'
+    print( 'Down:' )
     self.downward_net.PrintNetwork()
 
   def ExchangeGlobalInfo(self):

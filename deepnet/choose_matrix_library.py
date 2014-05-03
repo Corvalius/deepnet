@@ -6,7 +6,7 @@ if use_gpu == 'auto':
     import cudamat as cm
     use_gpu = 'yes'
   except:
-    print 'Failed to import cudamat. Using eigenmat. No GPU will be used.'
+    print( 'Failed to import cudamat. Using eigenmat. No GPU will be used.' )
     use_gpu = 'no'
 if use_gpu == 'yes':
   import cudamat as cm

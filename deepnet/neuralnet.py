@@ -62,7 +62,7 @@ class NeuralNet(object):
 
   def PrintNetwork(self):
     for layer in self.layer:
-      print layer.name
+      print( layer.name )
       layer.PrintNeighbours()
 
   def DeepCopy(self):
@@ -94,7 +94,7 @@ class NeuralNet(object):
       try:
         node1 = next(layer for layer in self.layer if layer.name == edge.node1)
       except StopIteration:
-        print edge.node1, [l.name for l in self.layer]
+        print( edge.node1, [l.name for l in self.layer] )
       node2 = next(layer for layer in self.layer if layer.name == edge.node2)
       if not edge.prefix:
         edge.prefix = self.net.prefix
@@ -128,9 +128,9 @@ class NeuralNet(object):
             S.append(m.node2)
     if reduce(lambda a, edge: a and edge.marker == 1, self.edge, True):
       if self.verbose:
-        print 'Fprop Order:'
+        print( 'Fprop Order:' )
         for node in node_list:
-          print node.name
+          print( node.name )
     else:
       raise Exception('Invalid net for backprop. Cycle exists.')
     return node_list
@@ -685,11 +685,11 @@ class NeuralNet(object):
         if dump_best:
           dump_best = False
           if select_model_using_error:
-            print 'Best valid error : %.4f Test error %.4f' % (best_valid_error, test_error)
+            print( 'Best valid error : %.4f Test error %.4f' % (best_valid_error, test_error) )
           elif select_model_using_acc:
-            print 'Best valid acc : %.4f Test acc %.4f' % (1-best_valid_error, 1-test_error)
+            print( 'Best valid acc : %.4f Test acc %.4f' % (1-best_valid_error, 1-test_error) )
           elif select_model_using_map:
-            print 'Best valid MAP : %.4f Test MAP %.4f' % (1-best_valid_error, 1-test_error)
+            print( 'Best valid MAP : %.4f Test MAP %.4f' % (1-best_valid_error, 1-test_error) )
 
           util.WriteCheckpointFile(best_net, best_t_op, best=True)
 

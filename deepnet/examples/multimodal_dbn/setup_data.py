@@ -56,7 +56,7 @@ def CreateMissingTextData(data_pb, data_pbtxt_file_z, data_pbtxt_file_nnz):
     end = 0
     img_files = glob.glob(os.path.join(data_pb.prefix, image_data.file_pattern))
     for img_file in sorted(img_files):
-      print img_file
+      print(img_file)
       img = np.load(img_file)
       start = end
       end = start + img.shape[0]

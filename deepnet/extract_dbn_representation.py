@@ -17,7 +17,7 @@ def ExtractRepresentations(model_file, train_op_file, layernames,
   output_proto_file = os.path.join(base_output_dir, 'data.pbtxt')
   for dataset in ['train', 'validation', 'test']:
     output_dir = os.path.join(base_output_dir, dataset)
-    print 'Writing to %s' % output_dir
+    print( 'Writing to %s' % output_dir )
     size = net.WriteRepresentationToDisk(
       layernames, output_dir, memory=memory, dataset=dataset)
     if size is None:

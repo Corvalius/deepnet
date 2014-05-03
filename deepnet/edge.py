@@ -195,7 +195,7 @@ class Edge(Parameter):
         try:
           edge = next(e for e in model.edge if e.node1 == node1_name and e.node2 == node2_name)
         except StopIteration as e:
-          print 'No edge found between %s and %s in model %s.' % (node1_name, node2_name, model_file)
+          print( 'No edge found between %s and %s in model %s.' % (node1_name, node2_name, model_file) )
           raise e
         pretrained_param = next(p for p in edge.param if p.name == param.name)
         assert pretrained_param.mat != '',\

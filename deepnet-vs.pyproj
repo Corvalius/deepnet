@@ -5,16 +5,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2b69e064-f3e1-40fc-bb61-6cedb5a021a7}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>__init__.py</StartupFile>
-    <SearchPath />
+    <StartupFile>tryout.py</StartupFile>
+    <SearchPath>cudamat\;deepnet\;eigenmat\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
-    <InterpreterVersion>2.7</InterpreterVersion>
+    <InterpreterVersion>3.3</InterpreterVersion>
     <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
     <Name>deepnet-vs</Name>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -111,6 +112,7 @@
     <Compile Include="eigenmat\test.py" />
     <Compile Include="eigenmat\visual_test.py" />
     <Compile Include="eigenmat\__init__.py" />
+    <Compile Include="tryout.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.3" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

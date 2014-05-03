@@ -53,7 +53,7 @@ delta = cm.empty((num_hid, batch_size))
 # Train neural network.
 start_time = time.time()
 for epoch in range(num_epochs):
-    print "Epoch " + str(epoch + 1)
+    print ( "Epoch " + str(epoch + 1) )
     err = []
 
     for batch in range(num_batches):
@@ -104,8 +104,8 @@ for epoch in range(num_epochs):
         # calculate error on current minibatch 
         err.append(np.abs(out.asarray())>0.5)
 
-    print "Training misclassification rate: " + str(np.mean(err))
-    print "Time: " + str(time.time() - start_time)
+    print ( "Training misclassification rate: " + str(np.mean(err)) )
+    print ( "Time: " + str(time.time() - start_time) )
 
 # Evaluate neural network on test data.
 
@@ -133,6 +133,6 @@ out.apply_sigmoid()
 # compute error
 out.subtract(dev_lbl)
 
-print "Testing misclassification rate: " + str(np.mean(np.abs(out.asarray())>0.5))
+print ( "Testing misclassification rate: " + str(np.mean(np.abs(out.asarray())>0.5)) )
 
 cm.cublas_shutdown()

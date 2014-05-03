@@ -68,7 +68,7 @@ def main():
     valid = np.load(os.path.join(prefix, 'splits', 'valid_indices_%d.npy' % r))
     test = np.load(os.path.join(prefix, 'splits', 'test_indices_%d.npy' % r))
   else:
-    print 'Creating new split.'
+    print( 'Creating new split.' )
     indices = np.arange(25000)
     np.random.shuffle(indices)
     train = indices[:10000]
@@ -79,7 +79,7 @@ def main():
     np.save(os.path.join(prefix, 'splits', 'test_indices_%d.npy' % r), test)
 
     
-  print 'Splitting data'
+  print( 'Splitting data' )
   dataset_pb = deepnet_pb2.Dataset()
   dataset_pb.name = 'flickr_split_%d' % r
   dataset_pb.gpu_memory = gpu_mem
@@ -91,7 +91,7 @@ def main():
     DumpDataSplit(data[valid], output_dir, 'valid_%s' % rep, dataset_pb, stats_file)
     DumpDataSplit(data[test], output_dir, 'test_%s' % rep, dataset_pb, stats_file)
 
-  print 'Splitting labels'
+  print( 'Splitting labels' )
   labels = np.load(os.path.join(prefix, 'labels.npy')).astype('float32')
   DumpLabelSplit(labels[train,], output_dir, 'train_labels', dataset_pb)
   DumpLabelSplit(labels[valid,], output_dir, 'valid_labels', dataset_pb)
@@ -105,7 +105,7 @@ def main():
   with open(os.path.join(output_dir, 'data.pbtxt'), 'w') as f:
     text_format.PrintMessage(dataset_pb, f)
 
-  print 'Output written in directory %s' % output_dir
+  print( 'Output written in directory %s' % output_dir )
 
 if __name__ == '__main__':
   main()

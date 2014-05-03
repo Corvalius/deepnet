@@ -334,7 +334,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.assign_scalar(self.p_mat, ct.c_float(val))
         else:
-            raise ValueError, "Assigned value must be of type CUDAMatrix, int, or float."
+            raise ValueError("Assigned value must be of type CUDAMatrix, int, or float.")
             
         if err_code:
             raise generate_exception(err_code)
@@ -587,7 +587,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.mult_diagonal_scalar(self.p_mat, ct.c_float(val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -611,7 +611,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.add_diagonal_scalar(self.p_mat, ct.c_float(val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1145,7 +1145,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.add_scalar(self.p_mat, ct.c_float(val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1181,7 +1181,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix) and isinstance(expansion_indices, CUDAMatrix):
             err_code = _cudamat.expand_and_add(self.p_mat, val.p_mat, expansion_indices.p_mat, target.p_mat, ct.c_float(mult))
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1200,7 +1200,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.add_scalar(self.p_mat, ct.c_float(-1*val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1219,7 +1219,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.divide_by_scalar(self.p_mat, ct.c_float(val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1238,7 +1238,7 @@ class CUDAMatrix(object):
         elif isinstance(val, (int, float)):
             err_code = _cudamat.mult_by_scalar(self.p_mat, ct.c_float(val), target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+            raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1256,7 +1256,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_cos_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1275,7 +1275,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_sin_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1291,7 +1291,7 @@ class CUDAMatrix(object):
         if isinstance(labels, CUDAMatrix):
             err_code = _cudamat.get_softmax_correct(self.p_mat, labels.p_mat, target.p_mat)
         else:
-            raise ValueError, "labels must be of type CUDAMatrix."
+            raise ValueError( "labels must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1307,7 +1307,7 @@ class CUDAMatrix(object):
         if isinstance(labels, CUDAMatrix):
             err_code = _cudamat.get_softmax_cross_entropy(self.p_mat, labels.p_mat, target.p_mat, ct.c_float(tiny))
         else:
-            raise ValueError, "labels must be of type CUDAMatrix."
+            raise ValueError( "labels must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1328,7 +1328,7 @@ class CUDAMatrix(object):
         if isinstance(labels, CUDAMatrix):
             err_code = _cudamat.apply_softmax_grad(self.p_mat, labels.p_mat, target.p_mat)
         else:
-            raise ValueError, "labels must be of type CUDAMatrix."
+            raise ValueError( "labels must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1347,7 +1347,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_logistic_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1365,7 +1365,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_tanh_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1383,7 +1383,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_rectified_linear_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1401,7 +1401,7 @@ class CUDAMatrix(object):
         if isinstance(val, CUDAMatrix):
             err_code = _cudamat.apply_rectified_linear_smooth_deriv(self.p_mat, val.p_mat, target.p_mat)
         else:
-            raise ValueError, "Value must be of type CUDAMatrix."
+            raise ValueError( "Value must be of type CUDAMatrix." )
 
         if err_code:
             raise generate_exception(err_code)
@@ -1791,7 +1791,7 @@ def cross_entropy_bernoulli(mat, p, target = None, tiny=1e-10):
     if isinstance(p, CUDAMatrix):
         err_code = _cudamat.compute_cross_entropy_bernoulli(mat.p_mat, p.p_mat, target.p_mat, ct.c_float(tiny))
     else:
-        raise ValueError, "Value must be of type CUDAMatrix."
+        raise ValueError( "Value must be of type CUDAMatrix." )
 
     if err_code:
         raise generate_exception(err_code)
@@ -1810,7 +1810,7 @@ def cross_entropy(mat, p, target = None, tiny=1e-10):
     if isinstance(p, CUDAMatrix):
         err_code = _cudamat.compute_cross_entropy(mat.p_mat, p.p_mat, target.p_mat, ct.c_float(tiny))
     else:
-        raise ValueError, "Value must be of type CUDAMatrix."
+        raise ValueError( "Value must be of type CUDAMatrix." )
 
     if err_code:
         raise generate_exception(err_code)
@@ -1828,7 +1828,7 @@ def correct_preds(mat, p, target = None, cutoff=0.5):
     if isinstance(p, CUDAMatrix):
         err_code = _cudamat.correct_preds(mat.p_mat, p.p_mat, target.p_mat, ct.c_float(cutoff))
     else:
-        raise ValueError, "Value must be of type CUDAMatrix."
+        raise ValueError( "Value must be of type CUDAMatrix." )
 
     if err_code:
         raise generate_exception(err_code)
@@ -1850,7 +1850,7 @@ def pow(mat, p, target = None):
     elif isinstance(p, (int, float)):
         err_code = _cudamat.apply_pow(mat.p_mat, ct.c_float(p), target.p_mat)
     else:
-        raise ValueError, "Value must be of type CUDAMatrix, int, or float."
+        raise ValueError( "Value must be of type CUDAMatrix, int, or float." )
 
     if err_code:
         raise generate_exception(err_code)

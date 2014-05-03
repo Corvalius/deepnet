@@ -141,23 +141,21 @@ class Disk(object):
                                   npzfile['indptr']),
                                   shape=tuple(list(npzfile['shape'])))
     if verbose:
-      print 'Loaded sparse matrix from %s of shape %s' % (inputfile,
-                                                          mat.shape.__str__())
+      print( 'Loaded sparse matrix from %s of shape %s' % (inputfile, mat.shape.__str__()) )
     return mat
 
   @staticmethod
   def SaveSparse(outputfile, mat, verbose=False):
     if verbose:
-      print 'Saving to %s shape %s' % (outputfile, mat.shape.__str__())
-    np.savez(outputfile, data=mat.data, indices=mat.indices, indptr=mat.indptr,
-             shape=np.array(list(mat.shape)))
+      print( 'Saving to %s shape %s' % (outputfile, mat.shape.__str__()) )
+    np.savez(outputfile, data=mat.data, indices=mat.indices, indptr=mat.indptr, shape=np.array(list(mat.shape)))
 
 
 
   def ReadDiskData(self, filename, key=''):
     """Reads data from filename."""
     if self.verbose:
-      print 'Reading from disk %s' % filename
+      print( 'Reading from disk %s' % filename )
     ext = os.path.splitext(filename)[1]
     if ext == '.npy':
       data = np.load(filename)
@@ -209,8 +207,7 @@ class Cache(object):
     self.datasize = 0
     self.randomize = randomize
     if self.verbose:
-      print 'Capacity %d bytes for data of size %d X %d rand=%s' % (
-        self.capacity, self._maxpos, self.numdims, randomize)
+      print( 'Capacity %d bytes for data of size %d X %d rand=%s' % (self.capacity, self._maxpos, self.numdims, randomize))
 
   def LoadData(self):
     """Load data from the parent."""
@@ -432,7 +429,7 @@ def GetBytes(mem_str):
     try:
       val = int(mem_str)
     except Exception:
-      print '%s is not a valid way of writing memory size.' % mem_str
+      print( '%s is not a valid way of writing memory size.' % mem_str )
   return int(val)
 
 def GetDataHandles(op, names, hyp_list, verbose=False):
@@ -463,7 +460,7 @@ def GetDataHandles(op, names, hyp_list, verbose=False):
         try:
           data_proto = next(d for d in dataset_proto.data if d.name == name)
         except StopIteration as e:
-          print '%s not found in data pbtxt' % name
+          print( '%s not found in data pbtxt' % name )
           raise e
         datasetsize = data_proto.size
         numdims = np.prod(np.array(data_proto.dimensions))
@@ -577,15 +574,12 @@ class DataHandler(object):
     if self.verbose:
       if seq:
         num_valid_gpu_vectors = (gpu_capacity/vectorsize_bytes) - len(filenames[0])*(max_rw+max_lw)
-        print num_valid_gpu_vectors
+        print (num_valid_gpu_vectors)
 
       else:
-        print 'Batches in GPU memory: %d + leftovers %d' % (num_gpu_batches,
-                                                            gpu_left_overs)
-        print 'Batches in main memory: %d + leftovers %d' % (num_cpu_batches,
-                                                             cpu_left_overs)
-        print 'Batches in disk: %d + leftovers %d' % ((datasetsize / batchsize),
-                                                      datasetsize % batchsize)
+        print ( 'Batches in GPU memory: %d + leftovers %d' % (num_gpu_batches, gpu_left_overs) )
+        print ('Batches in main memory: %d + leftovers %d' % (num_cpu_batches, cpu_left_overs) )
+        print ('Batches in disk: %d + leftovers %d' % ((datasetsize / batchsize), datasetsize % batchsize) )
     
     if seq:
       import sequence_datahandler as seq_dh

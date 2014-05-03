@@ -13,7 +13,7 @@ def load(fname, target_dict, verbose = True):
     fo = gzip.GzipFile(fname, 'rb')
     var_list = pickle.load(fo)
     if verbose:
-        print var_list
+        print( var_list )
     for var in var_list:
         target_dict[var] = pickle.load(fo)
     fo.close()

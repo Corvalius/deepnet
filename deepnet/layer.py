@@ -121,9 +121,9 @@ class Layer(Parameter):
 
   def PrintNeighbours(self):
     for n in self.incoming_neighbour:
-      print "Incoming edge from %s" % n.name
+      print( "Incoming edge from %s" % n.name )
     for n in self.outgoing_neighbour:
-      print "Outgoing edge to %s" % n.name
+      print( "Outgoing edge to %s" % n.name )
 
   def ResetState(self, rand=False):
     if rand:

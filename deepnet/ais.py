@@ -207,7 +207,7 @@ def ExactZ_binary_binary(model):
   return z
 
 def Usage():
-  print '%s <model file> <number of Markov chains to run> [number of words (for Replicated Softmax models)]'
+  print( '%s <model file> <number of Markov chains to run> [number of words (for Replicated Softmax models)]' )
 
 if __name__ == '__main__':
   board = tr.LockGPU()
@@ -219,7 +219,7 @@ if __name__ == '__main__':
   m.LoadModelOnGPU(batchsize=numchains)
   plt.ion()
   log_z = AISReplicatedSoftmax(m, D, numchains, display=True)
-  print 'Log Z %.5f' % log_z
+  print( 'Log Z %.5f' % log_z )
   #log_z = AIS(m, schedule)
   #print 'Log Z %.5f' % log_z
   #log_z = ExactZ_binary_binary(m)

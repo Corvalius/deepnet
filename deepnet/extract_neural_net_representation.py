@@ -31,7 +31,7 @@ def ExtractRepresentations(model_file, train_op_file, layernames,
     output_dir = os.path.join(base_output_dir, dataset)
     if not os.path.isdir(output_dir):
       os.makedirs(output_dir)
-    print 'Writing to %s' % output_dir
+    print('Writing to %s' % output_dir)
     size = net.WriteRepresentationToDisk(
       layernames, output_dir, memory=memory, dataset=dataset)
     # Write protocol buffer.
@@ -48,7 +48,7 @@ def ExtractRepresentations(model_file, train_op_file, layernames,
     text_format.PrintMessage(data_pb, f)
 
 def Usage():
-  print 'python %s <model_file> <train_op_file> <output_dir> <layer name1> [layer name2 [..]]' % sys.argv[0]
+  print( 'python %s <model_file> <train_op_file> <output_dir> <layer name1> [layer name2 [..]]' % sys.argv[0] )
 
 def main():
   if len(sys.argv) < 5:

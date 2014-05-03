@@ -30,7 +30,7 @@ wu_h = np.zeros((num_hid, 1))
 
 start_time = time.time()
 for epoch in range(num_epochs):
-    print "Epoch " + str(epoch + 1)
+    print ( "Epoch " + str(epoch + 1) )
     err = []
 
     for batch in range(num_batches):
@@ -67,5 +67,5 @@ for epoch in range(num_epochs):
 
         err.append(np.mean((v - v_true)**2))
 
-    print "Mean squared error: " + str(np.mean(err))
-    print "Time: " + str(time.time() - start_time)
+    print( "Mean squared error: " + str(np.mean(err)) )
+    print( "Time: " + str(time.time() - start_time) )

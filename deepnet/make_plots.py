@@ -20,7 +20,7 @@ if __name__ == '__main__':
   plt.ion()
   proto = sys.argv[1]
   proto = glob.glob(proto + "*")[-1]
-  print proto
+  print(proto)
   skip = 0
   if len(sys.argv) > 2:
     skip = int(sys.argv[2])

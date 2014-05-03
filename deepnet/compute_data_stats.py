@@ -14,7 +14,7 @@ class DataViewer(object):
     try:
       this_set = next(d for d in data_proto.data if d.name == name)
     except StopIteration as e:
-      print 'No data called %s found in proto file.' % name
+      print( 'No data called %s found in proto file.' % name )
       raise e
 
     filenames = sorted(glob.glob(os.path.join(data_proto.prefix,
@@ -65,7 +65,7 @@ class DataViewer(object):
     return {'mean': mean, 'std': std}
 
 def Usage():
-  print 'python %s <data_pbtxt> <output_stats_file> <data_field_whose_stats_need_to_be_computed> ' % sys.argv[0]
+  print( 'python %s <data_pbtxt> <output_stats_file> <data_field_whose_stats_need_to_be_computed> ' % sys.argv[0] )
 
 if __name__ == '__main__':
   if len(sys.argv) < 4:

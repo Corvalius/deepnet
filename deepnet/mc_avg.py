@@ -62,7 +62,7 @@ def main():
   out = np.zeros((k, 3))
   for l in range(1, k+1):
     mean, std = GetAverageResult(true_label_file, output_dir, total, l, avg_over=avg_over)
-    print '%d %.4f %.4f' % (l, mean, std)
+    print( '%d %.4f %.4f' % (l, mean, std) )
     out[l-1, 0] = l
     out[l-1, 1] = mean
     out[l-1, 2] = std
