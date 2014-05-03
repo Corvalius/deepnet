@@ -60,7 +60,6 @@
     <Compile Include="cudamat\gpu_lock2.py" />
     <Compile Include="cudamat\setup.py" />
     <Compile Include="cudamat\test_cudamat.py" />
-    <Compile Include="cudamat\__init__.py" />
     <Compile Include="deepnet\ais.py" />
     <Compile Include="deepnet\choose_matrix_library.py" />
     <Compile Include="deepnet\compute_data_stats.py" />
@@ -106,14 +105,11 @@
     <Compile Include="deepnet\util.py" />
     <Compile Include="deepnet\visualize.py" />
     <Compile Include="deepnet\write_model_to_mat.py" />
-    <Compile Include="deepnet\__init__.py" />
     <Compile Include="eigenmat\eigenmat.py" />
     <Compile Include="eigenmat\setup.py" />
     <Compile Include="eigenmat\test.py" />
     <Compile Include="eigenmat\visual_test.py" />
-    <Compile Include="eigenmat\__init__.py" />
     <Compile Include="tryout.py" />
-    <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cudamat" />

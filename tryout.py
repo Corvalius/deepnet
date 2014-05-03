@@ -1,6 +1,6 @@
-from cudamat import cudamat as cm
-from eigenmat import eigenmat as mat
-from deepnet import * 
+import cudamat as cm
+import eigenmat as mat
+import deepnet 
 import numpy as np
 
 # Ensuring that Cudamat is working. 
