@@ -1,0 +1,17 @@
+all: libeigenmat.dll
+	-xcopy "*.dll" "build\lib\"	/Y
+	-xcopy "*.dll" "..\..\"	/Y
+
+
+libeigenmat.dll: eigenmat.h eigenmat.cc ziggurat.h ziggurat.cc
+	powershell.exe -noprofile Set-ExecutionPolicy Unrestricted
+	powershell.exe Makefile.prepare.ps1
+	nvcc -O3 --ptxas-options=-v --shared \
+	  -gencode=arch=compute_20,code=sm_20 \
+		-gencode=arch=compute_30,code=sm_30 \
+		-gencode=arch=compute_35,code=sm_35 \
+		-gencode=arch=compute_50,code=sm_50 \
+		-o libeigenmat.dll eigenmat.cc ziggurat.cc -lcublas --library-path "$(CUDA_PATH)" --include-path "eigen3"
+
+clean:
+	rm -rf *.dll

@@ -5,9 +5,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2b69e064-f3e1-40fc-bb61-6cedb5a021a7}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>tryout.py</StartupFile>
-    <SearchPath>cudamat\;deepnet\;eigenmat\</SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <StartupFile>examples\cudamat\rbm_cudamat.py</StartupFile>
+    <SearchPath>.</SearchPath>
+    <WorkingDirectory>$(SolutionDir)</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
@@ -24,100 +24,108 @@
     <VSToolsPath Condition=" '$(VSToolsPath)' == '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="cudamat\cudamat.cu" />
-    <Content Include="cudamat\cudamat.cuh" />
-    <Content Include="cudamat\cudamat_conv.cu" />
-    <Content Include="cudamat\cudamat_conv.cuh" />
-    <Content Include="cudamat\cudamat_conv_kernels.cu" />
-    <Content Include="cudamat\cudamat_conv_kernels.cuh" />
-    <Content Include="cudamat\cudamat_kernels.cu" />
-    <Content Include="cudamat\cudamat_kernels.cuh" />
-    <Content Include="cudamat\INSTALL.txt" />
-    <Content Include="cudamat\LICENSE.txt" />
-    <Content Include="cudamat\Makefile">
-      <Publish>True</Publish>
-    </Content>
-    <Content Include="cudamat\Makefile.win">
-      <Publish>True</Publish>
-    </Content>
-    <Content Include="cudamat\rnd_multipliers_32bit.txt" />
-    <Content Include="deepnet\examples\multimodal_dbn\LICENSE.txt" />
-    <Content Include="deepnet\examples\multimodal_dbn\README.txt" />
-    <Content Include="eigenmat\Makefile.win" />
-    <Content Include="eigenmat\Makefile.prepare.ps1" />
+    <Content Include="examples\deepnet\multimodal_dbn\LICENSE.txt" />
+    <Content Include="examples\deepnet\multimodal_dbn\README.txt" />
+    <Content Include="examples\deepnet\multimodal_dbn\runall_dbn.sh" />
+    <Content Include="package\cudamat\cudamat.cu" />
+    <Content Include="package\cudamat\cudamat.cuh" />
+    <Content Include="package\cudamat\cudamat_conv.cu" />
+    <Content Include="package\cudamat\cudamat_conv.cuh" />
+    <Content Include="package\cudamat\cudamat_conv_kernels.cu" />
+    <Content Include="package\cudamat\cudamat_conv_kernels.cuh" />
+    <Content Include="package\cudamat\cudamat_kernels.cu" />
+    <Content Include="package\cudamat\cudamat_kernels.cuh" />
+    <Content Include="package\cudamat\INSTALL.txt" />
+    <Content Include="package\cudamat\LICENSE.txt" />
+    <Content Include="package\cudamat\Makefile" />
+    <Content Include="package\cudamat\Makefile.win" />
+    <Content Include="package\cudamat\rnd_multipliers_32bit.txt" />
+    <Content Include="package\cudamat\run_on_me_or_pid_quit" />
+    <Content Include="package\deepnet\train_deepnet.sh" />
+    <Content Include="package\eigenmat\Makefile.win" />
+    <Content Include="package\eigenmat\Makefile.prepare.ps1" />
     <Content Include="INSTALL.txt" />
     <Content Include="LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cudamat\cudamat.py" />
-    <Compile Include="cudamat\cudamat_conv.py" />
-    <Compile Include="cudamat\examples\nn_cudamat.py" />
-    <Compile Include="cudamat\examples\rbm_cudamat.py" />
-    <Compile Include="cudamat\examples\rbm_numpy.py" />
-    <Compile Include="cudamat\examples\test2.py" />
-    <Compile Include="cudamat\examples\util.py" />
-    <Compile Include="cudamat\gpu_lock.py" />
-    <Compile Include="cudamat\gpu_lock2.py" />
-    <Compile Include="cudamat\setup.py" />
-    <Compile Include="cudamat\test_cudamat.py" />
-    <Compile Include="deepnet\ais.py" />
-    <Compile Include="deepnet\choose_matrix_library.py" />
-    <Compile Include="deepnet\compute_data_stats.py" />
-    <Compile Include="deepnet\convolutions.py" />
-    <Compile Include="deepnet\cos_layer.py" />
-    <Compile Include="deepnet\datahandler.py" />
-    <Compile Include="deepnet\dbm.py" />
-    <Compile Include="deepnet\dbn.py" />
-    <Compile Include="deepnet\deepnet_pb2.py" />
-    <Compile Include="deepnet\edge.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\collect_dbn_reps.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\create_results_table.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\merge_dataset_pb.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\sample_text.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\setup_data.py" />
-    <Compile Include="deepnet\examples\multimodal_dbn\split_reps.py" />
-    <Compile Include="deepnet\examples\setup_examples.py" />
-    <Compile Include="deepnet\extract_dbn_representation.py" />
-    <Compile Include="deepnet\extract_neural_net_representation.py" />
-    <Compile Include="deepnet\extract_rbm_representation.py" />
-    <Compile Include="deepnet\fastdropoutnet.py" />
-    <Compile Include="deepnet\fast_dropout_layer.py" />
-    <Compile Include="deepnet\inference.py" />
-    <Compile Include="deepnet\layer.py" />
-    <Compile Include="deepnet\linear_layer.py" />
-    <Compile Include="deepnet\logistic_layer.py" />
-    <Compile Include="deepnet\make_plots.py" />
-    <Compile Include="deepnet\mc_avg.py" />
-    <Compile Include="deepnet\neuralnet.py" />
-    <Compile Include="deepnet\parameter.py" />
-    <Compile Include="deepnet\relu_layer.py" />
-    <Compile Include="deepnet\replicated_softmax_layer.py" />
-    <Compile Include="deepnet\sequence_datahandler.py" />
-    <Compile Include="deepnet\sin_layer.py" />
-    <Compile Include="deepnet\smooth_relu_layer.py" />
-    <Compile Include="deepnet\softmax_layer.py" />
-    <Compile Include="deepnet\soft_transfer_edge.py" />
-    <Compile Include="deepnet\sparse_coder.py" />
-    <Compile Include="deepnet\sparse_code_layer.py" />
-    <Compile Include="deepnet\tanh_layer.py" />
-    <Compile Include="deepnet\trainer.py" />
-    <Compile Include="deepnet\transfer_edge.py" />
-    <Compile Include="deepnet\util.py" />
-    <Compile Include="deepnet\visualize.py" />
-    <Compile Include="deepnet\write_model_to_mat.py" />
-    <Compile Include="eigenmat\eigenmat.py" />
-    <Compile Include="eigenmat\setup.py" />
-    <Compile Include="eigenmat\test.py" />
-    <Compile Include="eigenmat\visual_test.py" />
-    <Compile Include="tryout.py" />
+    <Compile Include="examples\cudamat\tryout.py" />
+    <Compile Include="examples\cudamat\__init__.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\collect_dbn_reps.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\create_results_table.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\merge_dataset_pb.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\sample_text.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\setup_data.py" />
+    <Compile Include="examples\deepnet\multimodal_dbn\split_reps.py" />
+    <Compile Include="examples\deepnet\setup_examples.py" />
+    <Compile Include="examples\deepnet\__init__.py" />
+    <Compile Include="examples\eigenmat\__init__.py" />
+    <Compile Include="examples\__init__.py" />
+    <Compile Include="package\cudamat\cudamat.py" />
+    <Compile Include="package\cudamat\cudamat_conv.py" />
+    <Compile Include="examples\cudamat\nn_cudamat.py" />
+    <Compile Include="examples\cudamat\rbm_cudamat.py" />
+    <Compile Include="examples\cudamat\rbm_numpy.py" />
+    <Compile Include="examples\cudamat\util.py" />
+    <Compile Include="package\cudamat\gpu_lock.py" />
+    <Compile Include="package\cudamat\gpu_lock2.py" />
+    <Compile Include="package\cudamat\setup.py" />
+    <Compile Include="package\cudamat\__init__.py" />
+    <Compile Include="package\deepnet\ais.py" />
+    <Compile Include="package\deepnet\choose_matrix_library.py" />
+    <Compile Include="package\deepnet\compute_data_stats.py" />
+    <Compile Include="package\deepnet\convolutions.py" />
+    <Compile Include="package\deepnet\cos_layer.py" />
+    <Compile Include="package\deepnet\datahandler.py" />
+    <Compile Include="package\deepnet\dbm.py" />
+    <Compile Include="package\deepnet\dbn.py" />
+    <Compile Include="package\deepnet\deepnet_pb2.py" />
+    <Compile Include="package\deepnet\edge.py" />
+    <Compile Include="package\deepnet\extract_dbn_representation.py" />
+    <Compile Include="package\deepnet\extract_neural_net_representation.py" />
+    <Compile Include="package\deepnet\extract_rbm_representation.py" />
+    <Compile Include="package\deepnet\fastdropoutnet.py" />
+    <Compile Include="package\deepnet\fast_dropout_layer.py" />
+    <Compile Include="package\deepnet\inference.py" />
+    <Compile Include="package\deepnet\layer.py" />
+    <Compile Include="package\deepnet\linear_layer.py" />
+    <Compile Include="package\deepnet\logistic_layer.py" />
+    <Compile Include="package\deepnet\make_plots.py" />
+    <Compile Include="package\deepnet\mc_avg.py" />
+    <Compile Include="package\deepnet\neuralnet.py" />
+    <Compile Include="package\deepnet\parameter.py" />
+    <Compile Include="package\deepnet\relu_layer.py" />
+    <Compile Include="package\deepnet\replicated_softmax_layer.py" />
+    <Compile Include="package\deepnet\sequence_datahandler.py" />
+    <Compile Include="package\deepnet\sin_layer.py" />
+    <Compile Include="package\deepnet\smooth_relu_layer.py" />
+    <Compile Include="package\deepnet\softmax_layer.py" />
+    <Compile Include="package\deepnet\soft_transfer_edge.py" />
+    <Compile Include="package\deepnet\sparse_coder.py" />
+    <Compile Include="package\deepnet\sparse_code_layer.py" />
+    <Compile Include="package\deepnet\tanh_layer.py" />
+    <Compile Include="package\deepnet\trainer.py" />
+    <Compile Include="package\deepnet\transfer_edge.py" />
+    <Compile Include="package\deepnet\util.py" />
+    <Compile Include="package\deepnet\visualize.py" />
+    <Compile Include="package\deepnet\write_model_to_mat.py" />
+    <Compile Include="package\deepnet\__init__.py" />
+    <Compile Include="package\eigenmat\eigenmat.py" />
+    <Compile Include="package\eigenmat\setup.py" />
+    <Compile Include="package\eigenmat\test.py" />
+    <Compile Include="examples\eigenmat\tryout.py" />
+    <Compile Include="package\eigenmat\__init__.py" />
+    <Compile Include="package\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="cudamat" />
-    <Folder Include="cudamat\examples" />
-    <Folder Include="deepnet" />
-    <Folder Include="deepnet\examples" />
-    <Folder Include="deepnet\examples\multimodal_dbn" />
-    <Folder Include="eigenmat" />
+    <Folder Include="examples\" />
+    <Folder Include="examples\cudamat\" />
+    <Folder Include="examples\deepnet\" />
+    <Folder Include="examples\deepnet\multimodal_dbn\" />
+    <Folder Include="examples\eigenmat\" />
+    <Folder Include="package\cudamat\" />
+    <Folder Include="package\deepnet\" />
+    <Folder Include="package\eigenmat\" />
+    <Folder Include="package\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />

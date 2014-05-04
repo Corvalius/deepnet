@@ -37,3 +37,4 @@ nosetests.xml
 eigenmat/eigen3/
 eigenmat/temp-build/
 *.exp
+package/eigenmat/eigen3/
