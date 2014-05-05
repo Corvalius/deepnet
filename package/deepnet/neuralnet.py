@@ -58,7 +58,7 @@ class NeuralNet(object):
     elif self.e_op:
       self.verbose = self.e_op.verbose
       self.batchsize = self.e_op.batchsize
-    self.train_stop_steps = sys.maxint
+    self.train_stop_steps = sys.maxsize
 
   def PrintNetwork(self):
     for layer in self.layer:
