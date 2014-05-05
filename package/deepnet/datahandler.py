@@ -1,10 +1,10 @@
-from deepnet import util
-from deepnet import deepnet_pb2
-import cPickle as pickle
+import util
+import deepnet_pb2
+import pickle
 from choose_matrix_library import *
 import glob
 import numpy as np
-import os.path
+import os
 import scipy.sparse as sp
 import pdb
 import gzip

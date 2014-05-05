@@ -1,8 +1,8 @@
 from choose_matrix_library import *
-import deepnet_pb2
+import package.deepnet.deepnet_pb2 as deepnet_pb2
 import logging
 import numpy as np
-import os.path
+import os
 import util
 import visualize
 import pdb

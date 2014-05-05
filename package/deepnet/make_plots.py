@@ -1,4 +1,4 @@
-from deepnet import deepnet_pb2
+import package.deepnet.deepnet_pb2 as deepnet_pb2
 import matplotlib.pyplot as plt
 import glob, sys, gzip, numpy as np
 

@@ -1,8 +1,8 @@
 """Computes partition function for RBM-like models using Annealed Importance Sampling."""
 import numpy as np
-from deepnet import dbm
-from deepnet import util
-from deepnet import trainer as tr
+import dbm
+import util
+import trainer as tr
 from choose_matrix_library import *
 import sys
 import numpy as np
@@ -10,7 +10,7 @@ import pdb
 import time
 import itertools
 import matplotlib.pyplot as plt
-from deepnet import visualize
+from package.deepnet import visualize
 import lightspeed
 
 def SampleEnergySoftmax(layer, numsamples, use_lightspeed=False):

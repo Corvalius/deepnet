@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2b69e064-f3e1-40fc-bb61-6cedb5a021a7}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>examples\cudamat\rbm_cudamat.py</StartupFile>
+    <StartupFile>examples\deepnet\setup_examples.py</StartupFile>
     <SearchPath>.</SearchPath>
     <WorkingDirectory>$(SolutionDir)</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -41,6 +41,7 @@
     <Content Include="package\cudamat\Makefile.win" />
     <Content Include="package\cudamat\rnd_multipliers_32bit.txt" />
     <Content Include="package\cudamat\run_on_me_or_pid_quit" />
+    <Content Include="package\deepnet\protos\deepnet.proto" />
     <Content Include="package\deepnet\train_deepnet.sh" />
     <Content Include="package\eigenmat\Makefile.win" />
     <Content Include="package\eigenmat\Makefile.prepare.ps1" />
@@ -124,6 +125,7 @@
     <Folder Include="examples\eigenmat\" />
     <Folder Include="package\cudamat\" />
     <Folder Include="package\deepnet\" />
+    <Folder Include="package\deepnet\protos\" />
     <Folder Include="package\eigenmat\" />
     <Folder Include="package\" />
   </ItemGroup>

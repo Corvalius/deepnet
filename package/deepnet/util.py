@@ -1,10 +1,10 @@
 """Utility functions for loading/saving models."""
 
-import cPickle as pickle
-import deepnet_pb2
+import pickle
+import package.deepnet.deepnet_pb2 as deepnet_pb2
 import gzip
 import numpy as np
-import os.path
+import os
 import shutil
 import time
 import pdb
@@ -56,7 +56,7 @@ def ReadOperation(proto_file):
   protoname, ext = os.path.splitext(proto_file)
   proto = deepnet_pb2.Operation()
   if ext == '.pbtxt':
-    proto_pbtxt = open(proto_file, 'r')
+    proto_pbtxt = open(proto_file, 'rb')
     text_format.Merge(proto_pbtxt.read(), proto)
   else:
     f = gzip.open(proto_file, 'rb')
@@ -68,7 +68,7 @@ def ReadModel(proto_file):
   protoname, ext = os.path.splitext(proto_file)
   proto = deepnet_pb2.Model()
   if ext == '.pbtxt':
-    proto_pbtxt = open(proto_file, 'r')
+    proto_pbtxt = open(proto_file, 'rb')
     text_format.Merge(proto_pbtxt.read(), proto)
   else:
     f = gzip.open(proto_file, 'rb')
@@ -77,14 +77,14 @@ def ReadModel(proto_file):
   return proto
 
 def WritePbtxt(output_file, pb):
-  with open(output_file, 'w') as f:
+  with open(output_file, 'wb') as f:
     text_format.PrintMessage(pb, f)
 
 def ReadData(proto_file):
   protoname, ext = os.path.splitext(proto_file)
   proto = deepnet_pb2.Dataset()
   if ext == '.pbtxt':
-    proto_pbtxt = open(proto_file, 'r')
+    proto_pbtxt = open(proto_file, 'rb')
     text_format.Merge(proto_pbtxt.read(), proto)
   else:
     f = open(proto_file, 'rb')

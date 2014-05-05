@@ -1,11 +1,11 @@
 """Sets the data path and output paths in trainers."""
 import sys
-import os.path
+import os
 from package.deepnet import util
 from google.protobuf import text_format
 
 def MakeDataPbtxt(data_pbtxt_file, data_path):
-  data_pbtxt = util.ReadData('mnist.pbtxt')
+  data_pbtxt = util.ReadData(data_pbtxt_file)
   for data in data_pbtxt.data:
     fname = os.path.basename(data.file_pattern)
     data.file_pattern = os.path.join(data_path, fname)
@@ -44,26 +44,26 @@ def main():
   MakeDataPbtxt(data_pbtxt_file, data_path)
 
   for model in ['ae', 'dbm', 'dbn', 'ff', 'rbm', 'convnet']:
-    trainer_file = os.path.join(model, 'train.pbtxt')
+    trainer_file = os.path.join(data_path, model, 'train.pbtxt')
     MakeTrainers(trainer_file, data_pbtxt_file, output_path)
 
   for model in ['dbn']:
-    trainer_file = os.path.join(model, 'train_classifier.pbtxt')
+    trainer_file = os.path.join(data_path, model, 'train_classifier.pbtxt')
     MakeTrainers(trainer_file, data_pbtxt_file, output_path)
 
   model_files = [
-    os.path.join('ae', 'model_layer1.pbtxt'),
-    os.path.join('ae', 'model_layer2.pbtxt'),
-    os.path.join('ae', 'classifier.pbtxt'),
-    os.path.join('dbm', 'model.pbtxt'),
-    os.path.join('dbn', 'mnist_rbm1.pbtxt'),
-    os.path.join('dbn', 'mnist_rbm2.pbtxt'),
-    os.path.join('dbn', 'mnist_rbm3.pbtxt'),
-    os.path.join('dbn', 'mnist_classifier.pbtxt'),
-    os.path.join('ff', 'model.pbtxt'),
-    os.path.join('ff', 'model_dropout.pbtxt'),
-    os.path.join('rbm', 'model.pbtxt'),
-    os.path.join('convnet', 'model_conv.pbtxt'),
+    os.path.join(data_path, 'ae', 'model_layer1.pbtxt'),
+    os.path.join(data_path, 'ae', 'model_layer2.pbtxt'),
+    os.path.join(data_path, 'ae', 'classifier.pbtxt'),
+    os.path.join(data_path, 'dbm', 'model.pbtxt'),
+    os.path.join(data_path, 'dbn', 'mnist_rbm1.pbtxt'),
+    os.path.join(data_path, 'dbn', 'mnist_rbm2.pbtxt'),
+    os.path.join(data_path, 'dbn', 'mnist_rbm3.pbtxt'),
+    os.path.join(data_path, 'dbn', 'mnist_classifier.pbtxt'),
+    os.path.join(data_path, 'ff', 'model.pbtxt'),
+    os.path.join(data_path, 'ff', 'model_dropout.pbtxt'),
+    os.path.join(data_path, 'rbm', 'model.pbtxt'),
+    os.path.join(data_path, 'convnet', 'model_conv.pbtxt'),
   ]
   for model_file in model_files:
     MakeModels(model_file, output_path)

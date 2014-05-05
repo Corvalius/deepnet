@@ -1,5 +1,5 @@
 """Write a model protocol buffer to mat file."""
-from deepnet import util
+import util
 import numpy as np
 import sys
 import scipy.io
