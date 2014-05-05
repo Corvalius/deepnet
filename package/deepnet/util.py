@@ -35,7 +35,7 @@ def WriteCheckpointFile(net, t_op, best=False):
     f.close()
   else:
     tag = 'LAST'
-    checkpoint_file = '%s_%s' % (net.name, time.strftime('%s'))
+    checkpoint_file = '%s_%s' % (net.name, time.strftime('%j%H%M%S'))
     checkpoint_file = os.path.join(ckpt_dir, checkpoint_file)
     print( 'Writing checkpoint %s' % checkpoint_file )
     f = gzip.open(checkpoint_file, 'wb')

@@ -3,6 +3,7 @@ import gzip
 import logging
 import sys
 import time
+import functools
 from google.protobuf import text_format
 
 from datahandler import *
@@ -123,10 +124,9 @@ class NeuralNet(object):
       for m in n.outgoing_edge:
         if m.marker == 0:
           m.marker = 1
-          if reduce(lambda a, edge: a and edge.marker == 1,
-                    m.node2.incoming_edge, True):
+          if  functools.reduce(lambda a, edge: a and edge.marker == 1, m.node2.incoming_edge, True):
             S.append(m.node2)
-    if reduce(lambda a, edge: a and edge.marker == 1, self.edge, True):
+    if  functools.reduce(lambda a, edge: a and edge.marker == 1, self.edge, True):
       if self.verbose:
         print( 'Fprop Order:' )
         for node in node_list:

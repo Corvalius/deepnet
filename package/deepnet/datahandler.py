@@ -1,4 +1,6 @@
 import util
+import struct
+import array
 import deepnet_pb2
 import pickle
 from choose_matrix_library import *
@@ -131,7 +133,23 @@ class Disk(object):
     if key:
       spec = spec[key].T
     fo.close()
-    return spec
+    return spec    
+
+  @staticmethod
+  def LoadRaw(inputfile, key=None, verbose=False):
+    """Loads a raw exported file from C#."""
+   
+    features = []
+    with open(inputfile, 'rb') as fo:
+        featureCount = struct.unpack('i', fo.read(4))[0]
+        featureSize = struct.unpack('i', fo.read(4))[0]            
+    
+        for n in range ( featureCount ):
+            buffer = array.array('f')                         
+            buffer.fromfile( fo, featureSize )
+            features.append( buffer )           
+
+    return np.asmatrix( features )
 
   @staticmethod
   def LoadSparse(inputfile, verbose=False):
@@ -169,6 +187,8 @@ class Disk(object):
       data = Disk.LoadSparse(filename, verbose=self.verbose)
     elif ext == '.spec':
       data = Disk.LoadPickle(filename, key, verbose=self.verbose)
+    elif ext == '.raw':
+      data = Disk.LoadRaw(filename, key, verbose=self.verbose)
     else:
       raise Exception('Unknown file extension %s' % ext)
     if data.dtype == 'float64':
