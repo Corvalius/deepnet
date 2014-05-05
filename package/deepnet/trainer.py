@@ -1,9 +1,9 @@
+from choose_matrix_library import *
 from neuralnet import *
 from fastdropoutnet import *
 from dbm import *
 from dbn import *
 from sparse_coder import *
-from choose_matrix_library import *
 import numpy as np
 from time import sleep
 
@@ -23,7 +23,6 @@ def LockGPU(max_retries=10):
 
 def FreeGPU(board):
   cm.cublas_shutdown()
-  #gpu_lock.free_lock(board)
 
 def LoadExperiment(model_file, train_op_file, eval_op_file):
   model = util.ReadModel(model_file)
@@ -47,14 +46,14 @@ def CreateDeepnet(model, train_op, eval_op):
 
 def main():
   if use_gpu == 'yes':
-    board = LockGPU()
-  model, train_op, eval_op = LoadExperiment(sys.argv[1], sys.argv[2],
-                                            sys.argv[3])
+    cm.cuda_set_device(0)
+    cm.cublas_init()
+
+  model, train_op, eval_op = LoadExperiment(sys.argv[1], sys.argv[2], sys.argv[3])
   model = CreateDeepnet(model, train_op, eval_op)
   model.Train()
   if use_gpu == 'yes':
-    FreeGPU(board)
-  #raw_input('Press Enter.')
+    cm.cublas_shutdown()
 
 if __name__ == '__main__':
   main()
